@@ -20,7 +20,7 @@ public class CommentService {
 
     public List<Comment> getCommentsByIdea(String ideaId,Integer page, Integer pageSize){
         Pageable pageable = PageRequest.of(page, pageSize);
-        return commentRepository.findCommentsByIdea_Id(ideaId,pageable);
+        return commentRepository.findByIdeaId(ideaId,pageable);
     }
 
     public List<Comment> saveCommentsOnIdea(String ideaId,List<CreateComment> comments){
