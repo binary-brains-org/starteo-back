@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,14 +24,15 @@ public class CommentService {
     }
 
     public List<Comment> saveCommentsOnIdea(String ideaId,List<CreateComment> comments){
+        List<Comment> commentDomain = new ArrayList<>();
         for (CreateComment comment: comments) {
-            commentRepository.save(Comment.builder()
+            commentDomain.add(commentRepository.save(Comment.builder()
                             .id(comment.getId())
                             .content(comment.getContent())
                             .idea(ideaService.getById(ideaId))
-                            .user()
-                    .build());
+                            .user(userService.getUserById(comment.getUserId()))
+                    .build()));
         }
-        return
+        return commentDomain;
     }
 }
