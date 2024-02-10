@@ -1,6 +1,6 @@
 create extension if not exists "uuid-ossp";
 
-create table "fund" (
+create table "createFund" (
     id varchar default uuid_generate_v4(),
     value integer,
     user_id varchar constraint user_id_fk references "user"(id),

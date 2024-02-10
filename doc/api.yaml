@@ -196,7 +196,7 @@ paths:
       put:
         tags:
           - Idea
-        summary: Fund an idea
+        summary: CreateFund an idea
         operationId: crupdateFunds
         parameters:
           - name: idea_id
@@ -205,7 +205,7 @@ paths:
             schema:
               type: string
         requestBody:
-          description: Fund an idea
+          description: CreateFund an idea
           content:
             application/json:
               schema:
