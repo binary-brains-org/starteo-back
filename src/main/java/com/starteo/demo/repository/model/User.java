@@ -1,6 +1,5 @@
 package com.starteo.demo.repository.model;
 
-import com.starteo.demo.endpoint.rest.model.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
