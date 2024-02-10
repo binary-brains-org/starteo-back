@@ -14,6 +14,7 @@ import java.util.List;
 public class IdeaController {
     private IdeaMapper ideaMapper;
     private IdeaService ideaService;
+
     @GetMapping("/ideas")
     public List<Idea> getIdeasByTime(
             @RequestParam("page") Integer page,
@@ -26,8 +27,10 @@ public class IdeaController {
         return ideaMapper.toRest(ideaService.getById(idIdea));
     }
 
-    @PutMapping("/ideas")
+    @PutMapping
     public List<Idea> crupdateIdeas(@RequestBody List<CreateIdea> ideas) {
-            return ideaService.saveIdeas(ideas.stream().map(ideaMapper::toDomain).toList()).stream().map(ideaMapper::toRest).toList();
-        }
+        return ideaService
+                .saveIdeas(ideas.stream().map(ideaMapper::toDomain).toList())
+                .stream().map(ideaMapper::toRest).toList();
+    }
 }
