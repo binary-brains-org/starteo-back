@@ -195,7 +195,7 @@ paths:
   '/funds/{idea_id}':
       put:
         tags:
-          - Funds
+          - Idea
         summary: Fund an idea
         operationId: crupdateFunds
         parameters:
