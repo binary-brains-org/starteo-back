@@ -28,4 +28,10 @@ public class IdeaService {
     public Idea getById(String ideaId) {
         return ideaRepository.findById(ideaId).orElseThrow(() -> {throw new RuntimeException("Not found");});
     }
+
+    public Idea uploadIdeaImage(String ideaId, String image) {
+        Idea selected = getById(ideaId);
+        selected.setImage(image);
+        return ideaRepository.save(selected);
+    }
 }
