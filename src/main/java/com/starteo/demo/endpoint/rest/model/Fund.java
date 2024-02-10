@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class Fund {
   private String id;
+  private Idea idea;
   private UserInfo user;
   private int value;
 }

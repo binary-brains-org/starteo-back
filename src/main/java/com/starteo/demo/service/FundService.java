@@ -19,9 +19,8 @@ public class FundService {
   private IdeaRepository ideaRepository;
   private UserRepository userRepository;
 
-  public Fund saveFundByIdeaId(CreateFund createFund, String ideaId, String userId) {
+  public Fund saveFundByIdeaId(CreateFund createFund, String ideaId, User user) {
     Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> {throw new RuntimeException("idea not found");});
-    User user = userRepository.findById(userId).orElseThrow(() -> {throw new RuntimeException("idea not found");});
     Fund fund = Fund.builder()
         .idea(idea)
         .value(createFund.getValue())
