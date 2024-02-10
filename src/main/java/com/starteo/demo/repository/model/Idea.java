@@ -3,8 +3,8 @@ package com.starteo.demo.repository.model;
 import com.starteo.demo.repository.model.enums.IdeaStatus;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.Instant;
+
 @Entity
 @Table(name = "\"idea\"")
 @Getter
