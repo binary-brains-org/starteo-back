@@ -10,6 +10,8 @@ import com.starteo.demo.repository.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class FundService {
@@ -26,5 +28,9 @@ public class FundService {
         .user(user)
         .build();
     return fundRepository.save(fund);
+  }
+
+  public List<Fund> getFundsByIdea(Idea idea){
+    return fundRepository.findAllByIdea(idea);
   }
 }
