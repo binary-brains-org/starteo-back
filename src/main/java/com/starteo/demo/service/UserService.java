@@ -15,6 +15,17 @@ import java.util.List;
 public class UserService {
   private final UserRepository repository;
   private final UserMapper userMapper;
+
+  public User uploadUserImage(String userId, String image) {
+    User selected = getUserById(userId);
+    selected.setImage(image);
+    return repository.save(selected);
+  }
+
+  public User getUserById(String userId) {
+    return repository.findById(userId).orElseThrow(() -> {throw new RuntimeException("user not found");});
+  }
+
   public List<User> saveUsers(List<User> users) {
     return repository.saveAll(users);
   }

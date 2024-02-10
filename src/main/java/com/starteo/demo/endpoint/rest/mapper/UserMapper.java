@@ -30,6 +30,7 @@ public class UserMapper {
             .email(entity.getEmail())
             .username(entity.getUsername())
             .password(entity.getPassword())
+            .image(entity.getImage())
             .build();
   }
 
