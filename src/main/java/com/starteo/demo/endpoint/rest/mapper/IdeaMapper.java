@@ -2,7 +2,6 @@ package com.starteo.demo.endpoint.rest.mapper;
 
 import com.starteo.demo.endpoint.rest.model.CreateIdea;
 import com.starteo.demo.endpoint.rest.model.Idea;
-import com.starteo.demo.endpoint.rest.model.enums.IdeaEnum;
 import com.starteo.demo.repository.model.Fund;
 import com.starteo.demo.service.FundService;
 import com.starteo.demo.service.UserService;
@@ -25,7 +24,7 @@ public class IdeaMapper {
     return Idea.builder()
         .id(domain.getId())
             .name(domain.getName())
-            .status(IdeaEnum.valueOf(domain.getStatus()))
+            .status(domain.getStatus())
             .description(domain.getDescription())
             .founder(domain.getFounder().getEmail())
             .image(domain.getImage())

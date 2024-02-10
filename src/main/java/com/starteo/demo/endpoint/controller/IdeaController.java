@@ -10,14 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ideas")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class IdeaController {
-
-    private IdeaService ideaService;
-
     private IdeaMapper ideaMapper;
+    private IdeaService ideaService;
 
     @GetMapping()
     public List<Idea> getIdeasByTime(
@@ -27,7 +24,12 @@ public class IdeaController {
         return ideaService.getIdeasByDate(page,pageSize,ideaName).stream().map(ideaMapper::toRest).toList();
     }
 
-    @PutMapping
+    @GetMapping("/ideas/{idea_id}")
+    public Idea getById(@PathVariable(name = "idea_id")String idIdea) {
+        return ideaMapper.toRest(ideaService.getById(idIdea));
+    }
+
+    @PutMapping("/ideas")
     public List<Idea> crupdateIdeas(@RequestBody List<CreateIdea> ideas) {
         return ideaService.saveIdeas(ideas.stream().map(ideaMapper::toDomain).toList()).stream().map(ideaMapper::toRest).toList();
     }

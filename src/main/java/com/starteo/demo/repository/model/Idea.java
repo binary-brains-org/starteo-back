@@ -1,5 +1,6 @@
 package com.starteo.demo.repository.model;
 
+import com.starteo.demo.repository.model.enums.IdeaStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,8 @@ public class Idea {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private IdeaStatus status;
     @Column(nullable = false)
     private String description;
     private String image;
