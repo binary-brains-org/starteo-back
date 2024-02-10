@@ -14,7 +14,6 @@ import java.util.List;
 public class IdeaController {
     private IdeaMapper ideaMapper;
     private IdeaService ideaService;
-
     @GetMapping("/ideas")
     public List<Idea> getIdeasByTime(
             @RequestParam("page") Integer page,
