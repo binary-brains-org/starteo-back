@@ -1,7 +1,6 @@
 package com.starteo.demo.repository.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -12,5 +11,18 @@ import lombok.*;
 @Setter
 @Builder
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
+    private String content;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private Idea idea;
+
+    @ManyToOne()
+    @JoinColumn(name = "idea_id")
+    private User user;
 
 }
