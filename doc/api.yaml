@@ -30,7 +30,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-          
+
   '/auth/login':
     post:
       tags:
@@ -193,40 +193,40 @@ paths:
         '500':
           $ref: '#/components/responses/500'
   '/funds/{idea_id}':
-      put:
-        tags:
-          - Idea
-        summary: CreateFund an idea
-        operationId: crupdateFunds
-        parameters:
-          - name: idea_id
-            in: path
-            required: true
+    put:
+      tags:
+        - Idea
+      summary: CreateFund an idea
+      operationId: crupdateFunds
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: CreateFund an idea
+        content:
+          application/json:
             schema:
-              type: string
-        requestBody:
-          description: CreateFund an idea
+              items:
+                $ref: '#/components/schemas/CreateFunds'
+      responses:
+        '200':
+          description: return a list funds.
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/CreateFunds'
-        responses:
-          '200':
-            description: return a list funds.
-            content:
-              application/json:
-                schema:
-                  items:
-                    $ref: '#/components/schemas/Funds'
-          '400':
-            $ref: '#/components/responses/400'
-          '403':
-            $ref: '#/components/responses/403'
-          '404':
-            $ref: '#/components/responses/404'
-          '500':
-            $ref: '#/components/responses/500'
+                  $ref: '#/components/schemas/Funds'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   '/ideas/{idea_id}/comments':
     get:
       tags:
@@ -269,41 +269,41 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-        tags:
-          - Ideas
-        summary: Comment an idea
-        operationId: crupdateComments
-        parameters:
-          - name: idea_id
-            in: path
-            required: true
+      tags:
+        - Ideas
+      summary: Comment an idea
+      operationId: crupdateComments
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Comment an idea
+        content:
+          application/json:
             schema:
-              type: string
-        requestBody:
-          description: Comment an idea
+              items:
+                $ref: '#/components/schemas/CreateComments'
+      responses:
+        '200':
+          description: return a list comments.
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/CreateComments'
-        responses:
-          '200':
-            description: return a list comments.
-            content:
-              application/json:
-                schema:
-                  items:
-                    $ref: '#/components/schemas/Comments'
-          '400':
-            $ref: '#/components/responses/400'
-          '403':
-            $ref: '#/components/responses/403'
-          '404':
-            $ref: '#/components/responses/404'
-          '500':
-            $ref: '#/components/responses/500'
+                  $ref: '#/components/schemas/Comments'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
-      
+
 components:
   securitySchemes:
     BearerAuth:
@@ -369,7 +369,7 @@ components:
       properties:
         email:
           type: string
-        password: 
+        password:
           type: string
     GivenToken:
       properties:
@@ -392,7 +392,7 @@ components:
           type: string
           example: "person@gmail.com"
         image:
-         type: string
+          type: string
     Ideas:
       allOf:
         - $ref: '#/components/schemas/CreateIdea'
@@ -420,7 +420,7 @@ components:
     CreateFunds:
       type: object
       properties:
-        userId: 
+        userId:
           type: string
         value:
           type: integer
@@ -446,7 +446,7 @@ components:
       properties:
         id:
           type: string
-        userId: 
+        userId:
           type: string
         content:
           type: string
@@ -459,7 +459,7 @@ components:
           $ref: '#/components/schemas/Ideas'
         content:
           type: string
-        user: 
+        user:
           $ref: '#/components/schemas/UserInfo'
     Exception:
       type: object
