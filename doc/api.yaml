@@ -60,7 +60,44 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-
+  '/users/{user_id}/picture/raw':
+    post:
+      tags:
+        - User
+      summary: Create or update a picture to an user
+      description: Post photos for user's profile
+      operationId: PostImagesUsers
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        description: Photo to send
+        required: true
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Individual User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   '/auth/login':
     post:
       tags:
@@ -81,6 +118,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GivenToken'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/auth/whoami':
+    get:
+      tags:
+        - Security
+      summary: Check the current logged user
+      operationId: whoAmI
+      responses:
+        '200':
+          description: User created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -192,7 +252,42 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  
+  '/lastIdeas':
+    get:
+      tags:
+        - Ideas
+      summary: Get all ideas by creation datetime.
+      operationId: getIdeas
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/PageSize'
+      responses:
+        '200':
+          description: List of filtered ideas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   '/ideas/{idea_id}':
     get:
       tags:
@@ -208,6 +303,43 @@ paths:
       responses:
         '200':
           description: List of filtered ideas.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/ideas/{idea_id}/picture/raw':
+    post:
+      tags:
+        - Ideas
+      summary: Post images to an idea
+      operationId: postImageToIdea
+      parameters:
+        - name: idea_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        description: Photo to send
+        required: true
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Individual idea
           content:
             application/json:
               schema:
