@@ -22,7 +22,7 @@ public class IdeaMapper {
       currentValue += fund.getValue();
     }
     return Idea.builder()
-        .id(domain.getId())
+            .id(domain.getId())
             .name(domain.getName())
             .status(domain.getStatus())
             .description(domain.getDescription())
@@ -31,7 +31,7 @@ public class IdeaMapper {
             .creationDatetime(domain.getCreationDatetime())
             .updatedDatetime(domain.getUpdatedDatetime())
             .currentFunds(currentValue)
-        .build();
+            .build();
   }
 
   public com.starteo.demo.repository.model.Idea toDomain(CreateIdea idea){

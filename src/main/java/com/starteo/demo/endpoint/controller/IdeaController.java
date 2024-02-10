@@ -14,6 +14,7 @@ import java.util.List;
 public class IdeaController {
     private IdeaMapper ideaMapper;
     private IdeaService ideaService;
+    private IdeaMapper ideaMapper;
 
     @GetMapping()
     public List<Idea> getIdeasByTime(
@@ -23,9 +24,15 @@ public class IdeaController {
         return ideaService.getIdeasByDate(page,pageSize,ideaName).stream().map(ideaMapper::toRest).toList();
     }
 
+<<<<<<< HEAD
     @GetMapping("/ideas/{idea_id}")
     public Idea getById(@PathVariable(name = "idea_id")String idIdea) {
         return ideaMapper.toRest(ideaService.getById(idIdea));
+=======
+    @PutMapping
+    public List<Idea> crupdateIdeas(@RequestBody List<CreateIdea> ideas) {
+        return ideaService.saveIdeas(ideas.stream().map(ideaMapper::toDomain).toList()).stream().map(ideaMapper::toRest).toList();
+>>>>>>> a34902c (chore: get Ideas)
     }
 
     @PutMapping("/ideas")
