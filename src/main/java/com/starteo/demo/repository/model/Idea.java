@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-
 @Entity
 @Table(name = "\"idea\"")
 @Getter
@@ -28,7 +27,6 @@ public class Idea {
     private Instant creationDatetime;
     @Column(name = "updated_datetime",nullable = false)
     private Instant updatedDatetime;
-
     @ManyToOne()
     @JoinColumn(name = "founder")
     private User founder;
