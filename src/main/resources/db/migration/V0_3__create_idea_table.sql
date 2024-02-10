@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "idea"(
     status VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
     image TEXT,
-    creation_datetime varchar not null,
-    updated_datetime varchar not null,
+    creation_datetime timestamp not null ,
+    updated_datetime timestamp not null,
     founder varchar constraint user_id_fk references "user"(id)
 );
