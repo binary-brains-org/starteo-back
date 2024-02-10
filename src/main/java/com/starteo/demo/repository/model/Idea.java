@@ -3,6 +3,8 @@ package com.starteo.demo.repository.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "\"idea\"")
 @Getter
@@ -23,9 +25,9 @@ public class Idea {
     private String description;
     private String image;
     @Column(name = "creation_datetime",nullable = false)
-    private String creationDatetime;
+    private Instant creationDatetime;
     @Column(name = "updated_datetime",nullable = false)
-    private String updatedDatetime;
+    private Instant updatedDatetime;
 
     @ManyToOne()
     @JoinColumn(name = "founder")
