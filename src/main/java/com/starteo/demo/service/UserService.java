@@ -25,4 +25,5 @@ public class UserService {
   public com.starteo.demo.endpoint.rest.model.User getByEmail(String email){
     return userMapper.toUser(repository.findByEmail(email).orElse(null));
   }
+
 }
