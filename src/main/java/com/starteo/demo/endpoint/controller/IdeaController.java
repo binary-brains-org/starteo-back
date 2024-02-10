@@ -3,7 +3,6 @@ package com.starteo.demo.endpoint.controller;
 import com.starteo.demo.endpoint.rest.mapper.IdeaMapper;
 import com.starteo.demo.endpoint.rest.model.CreateIdea;
 import com.starteo.demo.endpoint.rest.model.Idea;
-
 import com.starteo.demo.service.IdeaService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

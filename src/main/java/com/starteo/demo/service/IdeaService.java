@@ -25,9 +25,7 @@ public class IdeaService {
         }
         return ideaRepository.getIdeasOrderByUpdate(pageable);
     }
-
     public Idea getById(String ideaId) {
         return ideaRepository.findById(ideaId).orElseThrow(() -> {throw new RuntimeException("Not found");});
     }
-
 }
