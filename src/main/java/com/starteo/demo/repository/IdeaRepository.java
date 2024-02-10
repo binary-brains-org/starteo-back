@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface IdeaRepository extends JpaRepository<Idea, String> {
-    @Query(value = "Select * from idea order by updated_datetime;",nativeQuery = true)
+    @Query(value = "Select * from idea order by updated_datetime desc ;",nativeQuery = true)
     List<Idea> getIdeasOrderByUpdate(Pageable pageable);
 
     List<Idea> findIdeasByNameOrderByUpdatedDatetime(String name, Pageable pageable);
