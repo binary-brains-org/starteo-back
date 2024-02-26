@@ -30,6 +30,32 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  '/user':
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: get all users
+      operationId: GetUsers
+      responses:
+        '200':
+          description: All users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/User'
+        '400':
+            $ref: '#/components/responses/400'
+        '403':
+            $ref: '#/components/responses/403'
+        '404':
+            $ref: '#/components/responses/404'
+        '429':
+            $ref: '#/components/responses/429'
+        '500':
+            $ref: '#/components/responses/500'
   '/user/{user_id}':
     get:
       tags:
@@ -49,7 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfo'
+                $ref: '#/components/schemas/User'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -110,7 +136,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Signin'
+              $ref: '#/components/schemas/SignIn'
       responses:
         '200':
           description: token
@@ -140,7 +166,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfo'
+                $ref: '#/components/schemas/User'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -163,14 +189,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Signup'
+              $ref: '#/components/schemas/CreateUser'
       responses:
         '200':
-          description: User created.
+          description: token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfo'
+                $ref: '#/components/schemas/GivenToken'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -181,7 +207,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-
   '/ideas':
     put:
       tags:
@@ -492,8 +517,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-
-
 components:
   securitySchemes:
     BearerAuth:
@@ -531,7 +554,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/InternalServerException'
-
   schemas:
     ## enum type
     Page:
@@ -545,9 +567,11 @@ components:
       enum:
         - OPEN
         - CLOSED
-    UserInfo:
+    CreateUser:
+      allOf:
+        - $ref : '#/components/schemas/SignIn'
       properties:
-        id:
+        username:
           type: string
         firstname:
           type: string
@@ -555,11 +579,17 @@ components:
           type: string
         email:
           type: string
-    Signin:
+    SignIn:
       properties:
         email:
           type: string
         password:
+          type: string
+    User:
+      allOf:
+        - $ref: '#/components/schemas/CreateUser'
+      properties:
+        id:
           type: string
     GivenToken:
       properties:
@@ -615,22 +645,6 @@ components:
         value:
           type: integer
           example: 10000
-    User:
-      allOf:
-        - $ref: '#/components/schemas/UserInfo'
-      properties:
-        password:
-          type: string
-        username:
-          type: string
-    Signup:
-      allOf:
-        - $ref: '#/components/schemas/UserInfo'
-      properties:
-        username:
-          type: string
-        password:
-          type: string
     CreateComments:
       type: object
       properties:
