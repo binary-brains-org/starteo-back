@@ -15,11 +15,6 @@ public class FundMapper {
   public Fund toRest(com.starteo.demo.repository.model.Fund domain) {
     User user = userMapper.toDto(domain.getUser());
     Idea idea = ideaMapper.toRest(domain.getIdea());
-    return Fund.builder()
-        .id(domain.getId())
-        .user(user)
-        .value(domain.getValue())
-        .idea(idea)
-        .build();
+    return Fund.builder().id(domain.getId()).user(user).value(domain.getValue()).idea(idea).build();
   }
 }

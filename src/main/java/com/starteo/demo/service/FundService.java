@@ -7,10 +7,9 @@ import com.starteo.demo.repository.UserRepository;
 import com.starteo.demo.repository.model.Fund;
 import com.starteo.demo.repository.model.Idea;
 import com.starteo.demo.repository.model.User;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -20,16 +19,18 @@ public class FundService {
   private UserRepository userRepository;
 
   public Fund saveFundByIdeaId(CreateFund createFund, String ideaId, User user) {
-    Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> {throw new RuntimeException("idea not found");});
-    Fund fund = Fund.builder()
-        .idea(idea)
-        .value(createFund.getValue())
-        .user(user)
-        .build();
+    Idea idea =
+        ideaRepository
+            .findById(ideaId)
+            .orElseThrow(
+                () -> {
+                  throw new RuntimeException("idea not found");
+                });
+    Fund fund = Fund.builder().idea(idea).value(createFund.getValue()).user(user).build();
     return fundRepository.save(fund);
   }
 
-  public List<Fund> getFundsByIdea(Idea idea){
+  public List<Fund> getFundsByIdea(Idea idea) {
     return fundRepository.findAllByIdea(idea);
   }
 }

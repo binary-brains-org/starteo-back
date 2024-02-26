@@ -23,13 +23,15 @@ public class FileController {
   private UserMapper userMapper;
 
   @PostMapping("/users/{user_id}/picture/raw")
-  public User uploadUserImage(@RequestBody byte[] image, @PathVariable(name = "user_id")String userId) {
+  public User uploadUserImage(
+      @RequestBody byte[] image, @PathVariable(name = "user_id") String userId) {
     String base64 = fileMapper.encoodeToBase64(image);
     return userMapper.toDto(userService.uploadUserImage(userId, base64));
   }
 
   @PostMapping("/ideas/{idea_id}/picture/raw")
-  public Idea uploadIdeaImage(@RequestBody byte[] image, @PathVariable(name = "idea_id")String ideaId) {
+  public Idea uploadIdeaImage(
+      @RequestBody byte[] image, @PathVariable(name = "idea_id") String ideaId) {
     String base64 = fileMapper.encoodeToBase64(image);
     return ideaMapper.toRest(ideaService.uploadIdeaImage(ideaId, base64));
   }

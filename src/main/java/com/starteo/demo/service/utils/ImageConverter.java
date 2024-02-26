@@ -1,12 +1,13 @@
 package com.starteo.demo.service.utils;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
+import javax.imageio.ImageIO;
 
 public class ImageConverter {
 

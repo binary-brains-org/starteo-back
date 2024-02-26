@@ -9,7 +9,12 @@ import com.starteo.demo.service.AuthService;
 import com.starteo.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
@@ -35,7 +40,7 @@ public class UserController {
   }
 
   @GetMapping("/user/{user_id}")
-  public User getUserById(@PathVariable("user_id") String userId){
+  public User getUserById(@PathVariable("user_id") String userId) {
     return mapper.toDto(userService.getUserById(userId));
   }
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class SignIn {
-    private String email;
-    private String password;
+  private String email;
+  private String password;
 }
