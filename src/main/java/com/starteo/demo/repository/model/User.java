@@ -1,5 +1,6 @@
 package com.starteo.demo.repository.model;
 
+import com.starteo.demo.repository.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,7 @@ public class User {
   private String email;
 
   private String password;
+  private Role role;
 
   private String image;
 }

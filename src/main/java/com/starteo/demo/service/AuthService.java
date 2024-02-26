@@ -3,6 +3,7 @@ package com.starteo.demo.service;
 import com.starteo.demo.endpoint.rest.mapper.UserMapper;
 import com.starteo.demo.endpoint.rest.model.*;
 import com.starteo.demo.repository.model.User;
+import com.starteo.demo.repository.model.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,21 +28,20 @@ public class AuthService {
   private final String AUTHORIZATION_HEADER = "Authorization";
   private final int BEARER_PREFIX_COUNT = 7;
 
-  public LoggedUser signIn(Signin toAuthenticate) {
+  public LoggedUser signIn(SignIn toAuthenticate) {
     String email = toAuthenticate.getEmail();
     UserDetails principal = userDetailsServiceImpl.loadUserByUsername(email);
     if (!passwordEncoder.matches(toAuthenticate.getPassword(), principal.getPassword())) {
       throw new UsernameNotFoundException("Wrong Password!");
     }
     return LoggedUser.builder()
-            .id(userService.getUserByEmail(toAuthenticate.getEmail()).getId())
             .email(toAuthenticate.getEmail())
             .token(jwtService.generateToken(principal))
             .build();
   }
 
   @Transactional
-  public User signUp(SignUp user) {
+  public LoggedUser signUp(SignUp user) {
     String email = user.getEmail();
     User existingUser = userService.getUserByEmail(email);
     if (Objects.nonNull(existingUser)) {
@@ -56,11 +57,15 @@ public class AuthService {
                             .firstname(user.getFirstname())
                             .lastname(user.getLastname())
                         .email(user.getEmail())
+                            .role(Role.USER)
                         .password(hashedPassword)
                         .build()))
             .get(0);
-
-    return createdUser;
+    UserDetails principal = userDetailsServiceImpl.loadUserByUsername(createdUser.getEmail());
+    return LoggedUser.builder()
+            .email(createdUser.getEmail())
+            .token(jwtService.generateToken(principal))
+            .build();
   }
 
   public User whoami(HttpServletRequest request) {

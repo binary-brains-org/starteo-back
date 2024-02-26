@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -33,8 +34,8 @@ public class UserService {
     return repository.findByEmail(email).orElse(null);
   }
 
-  public com.starteo.demo.endpoint.rest.model.User getByEmail(String email){
-    return userMapper.toUser(repository.findByEmail(email).orElse(null));
+  public User getByEmail(String email){
+    return Objects.requireNonNull(repository.findByEmail(email).orElse(null));
   }
 
 }

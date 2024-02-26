@@ -523,7 +523,6 @@ components:
       type: http
       scheme: bearer
   responses:
-    ## response model
     '400':
       description: Bad request
       content:
@@ -591,6 +590,10 @@ components:
       properties:
         id:
           type: string
+        role:
+          enum:
+            - USER
+            - ADMIN
     GivenToken:
       properties:
         email:
@@ -633,7 +636,7 @@ components:
         idea:
           $ref: '#/components/schemas/Ideas'
         user:
-          $ref: '#/components/schemas/UserInfo'
+          $ref: '#/components/schemas/User'
         value:
           type: integer
           example: 10000
@@ -664,7 +667,7 @@ components:
         content:
           type: string
         user:
-          $ref: '#/components/schemas/UserInfo'
+          $ref: '#/components/schemas/User'
     Exception:
       type: object
       properties:

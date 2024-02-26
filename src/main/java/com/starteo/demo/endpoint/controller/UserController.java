@@ -2,9 +2,9 @@ package com.starteo.demo.endpoint.controller;
 
 import com.starteo.demo.endpoint.rest.mapper.UserMapper;
 import com.starteo.demo.endpoint.rest.model.LoggedUser;
+import com.starteo.demo.endpoint.rest.model.SignIn;
 import com.starteo.demo.endpoint.rest.model.SignUp;
-import com.starteo.demo.endpoint.rest.model.Signin;
-import com.starteo.demo.endpoint.rest.model.UserInfo;
+import com.starteo.demo.endpoint.rest.model.User;
 import com.starteo.demo.service.AuthService;
 import com.starteo.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,22 +20,22 @@ public class UserController {
   private final AuthService service;
 
   @PostMapping("/auth/signup")
-  public UserInfo signUp(@RequestBody SignUp auth) {
-    return mapper.toDto(service.signUp(auth));
+  public LoggedUser signUp(@RequestBody SignUp auth) {
+    return service.signUp(auth);
   }
 
   @PostMapping("/auth/login")
-  public LoggedUser signIn(@RequestBody Signin toAuthenticate) {
+  public LoggedUser signIn(@RequestBody SignIn toAuthenticate) {
     return service.signIn(toAuthenticate);
   }
 
   @GetMapping("/auth/whoami")
-  public UserInfo whoami(HttpServletRequest request) {
+  public User whoami(HttpServletRequest request) {
     return mapper.toDto(service.whoami(request));
   }
 
   @GetMapping("/user/{user_id}")
-  public UserInfo getUserById(@PathVariable("user_id") String userId){
+  public User getUserById(@PathVariable("user_id") String userId){
     return mapper.toDto(userService.getUserById(userId));
   }
 }

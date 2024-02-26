@@ -25,7 +25,7 @@ public class FileController {
   @PostMapping("/users/{user_id}/picture/raw")
   public User uploadUserImage(@RequestBody byte[] image, @PathVariable(name = "user_id")String userId) {
     String base64 = fileMapper.encoodeToBase64(image);
-    return userMapper.toUser(userService.uploadUserImage(userId, base64));
+    return userMapper.toDto(userService.uploadUserImage(userId, base64));
   }
 
   @PostMapping("/ideas/{idea_id}/picture/raw")

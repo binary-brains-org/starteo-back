@@ -8,40 +8,27 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class UserMapper {
 
-  public UserInfo toDto(com.starteo.demo.repository.model.User entity) {
-    return UserInfo.builder()
+  public User toDto(com.starteo.demo.repository.model.User entity) {
+    return User.builder()
         .id(entity.getId())
         .email(entity.getEmail())
         .firstname(entity.getFirstname())
         .lastname(entity.getLastname())
+            .username(entity.getUsername())
+            .role(entity.getRole())
+            .image(entity.getImage() != null ? entity.getImage() : null)
         .build();
   }
-  public LoggedUser toDto(com.starteo.demo.repository.model.User entity, String token){
-    return LoggedUser.builder()
-            .email(entity.getEmail())
-            .token(token)
-            .build();
-  }
-  public User toUser(com.starteo.demo.repository.model.User entity){
+  public User toCheckPassword(com.starteo.demo.repository.model.User entity) {
     return User.builder()
             .id(entity.getId())
+            .email(entity.getEmail())
             .firstname(entity.getFirstname())
             .lastname(entity.getLastname())
-            .email(entity.getEmail())
-            .username(entity.getUsername())
             .password(entity.getPassword())
-            .image(entity.getImage())
-            .build();
-  }
-
-  public com.starteo.demo.repository.model.User toDomain(SignUp register){
-    return com.starteo.demo.repository.model.User.builder()
-            .id(register.getId())
-            .email(register.getEmail())
-            .firstname(register.getFirstname())
-            .lastname(register.getLastname())
-            .username(register.getUsername())
-            .password(register.getPassword())
+            .username(entity.getUsername())
+            .role(entity.getRole())
+            .image(entity.getImage() != null ? entity.getImage() : null)
             .build();
   }
 }
