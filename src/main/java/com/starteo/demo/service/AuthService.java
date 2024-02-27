@@ -1,6 +1,5 @@
 package com.starteo.demo.service;
 
-import com.starteo.demo.endpoint.rest.mapper.UserMapper;
 import com.starteo.demo.endpoint.rest.model.LoggedUser;
 import com.starteo.demo.endpoint.rest.model.SignIn;
 import com.starteo.demo.endpoint.rest.model.SignUp;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthService {
   private final UserService userService;
-  private final UserMapper userMapper;
   private final UserDetailsServiceImpl userDetailsServiceImpl;
   private final JWTService jwtService;
   private final PasswordEncoder passwordEncoder;

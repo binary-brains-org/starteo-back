@@ -6,12 +6,10 @@ import com.starteo.demo.repository.model.Fund;
 import com.starteo.demo.service.FundService;
 import com.starteo.demo.service.UserService;
 import java.util.Date;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class IdeaMapper {
   private FundService fundService;
   private UserService userService;

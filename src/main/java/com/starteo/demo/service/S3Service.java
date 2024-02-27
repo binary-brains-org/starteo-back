@@ -1,6 +1,8 @@
 package com.starteo.demo.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +23,9 @@ public class S3Service {
   }
 
   public String uploadFile(String keyName, MultipartFile file) throws IOException {
-    s3client.putObject(bucketName, keyName, file.getInputStream(), null);
+    PutObjectRequest putObjectRequest =  new PutObjectRequest(bucketName, keyName, file.getInputStream(), null)
+            .withCannedAcl(CannedAccessControlList.PublicRead);
+    s3client.putObject(putObjectRequest);
     return keyName;
   }
 

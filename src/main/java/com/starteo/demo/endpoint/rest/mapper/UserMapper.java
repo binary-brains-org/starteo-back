@@ -1,12 +1,10 @@
 package com.starteo.demo.endpoint.rest.mapper;
 
 import com.starteo.demo.endpoint.rest.model.User;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class UserMapper {
 
   @Value("${aws.s3.bucket}")
