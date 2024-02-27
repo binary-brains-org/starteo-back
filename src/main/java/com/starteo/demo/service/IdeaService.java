@@ -3,17 +3,20 @@ package com.starteo.demo.service;
 import com.starteo.demo.repository.IdeaRepository;
 import com.starteo.demo.repository.model.Idea;
 import com.starteo.demo.service.utils.InstanceTime;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @AllArgsConstructor
 public class IdeaService {
   private final IdeaRepository ideaRepository;
+  private final S3Service s3Service;
 
   private InstanceTime instanceTime;
 
@@ -43,8 +46,10 @@ public class IdeaService {
             });
   }
 
-  public Idea uploadIdeaImage(String ideaId, String image) {
+  public Idea uploadIdeaImage(String ideaId, MultipartFile file) throws IOException {
     Idea selected = getById(ideaId);
+    String keyName = "idea/" + selected.getId() + file.getOriginalFilename();
+    String image = s3Service.uploadFile(keyName, file);
     selected.setImage(image);
     return ideaRepository.save(selected);
   }

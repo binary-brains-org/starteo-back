@@ -7,6 +7,7 @@ import com.starteo.demo.service.FundService;
 import com.starteo.demo.service.UserService;
 import java.util.Date;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Component;
 public class IdeaMapper {
   private FundService fundService;
   private UserService userService;
+
+  @Value("${aws.s3.bucket}")
+  private String bucketName;
 
   public Idea toRest(com.starteo.demo.repository.model.Idea domain) {
     int currentValue = 0;
@@ -26,7 +30,10 @@ public class IdeaMapper {
         .status(domain.getStatus())
         .description(domain.getDescription())
         .founder(domain.getFounder().getEmail())
-        .image(domain.getImage())
+        .image(
+            domain.getImage() != null
+                ? "https://" + bucketName + ".s3.amazonaws.com/" + domain.getImage()
+                : null)
         .creationDatetime(domain.getCreationDatetime())
         .updatedDatetime(domain.getUpdatedDatetime())
         .currentFunds(currentValue)

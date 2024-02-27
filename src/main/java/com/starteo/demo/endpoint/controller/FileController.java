@@ -1,38 +1,43 @@
 package com.starteo.demo.endpoint.controller;
 
-import com.starteo.demo.endpoint.rest.mapper.FileMapper;
 import com.starteo.demo.endpoint.rest.mapper.IdeaMapper;
 import com.starteo.demo.endpoint.rest.mapper.UserMapper;
 import com.starteo.demo.endpoint.rest.model.Idea;
 import com.starteo.demo.endpoint.rest.model.User;
 import com.starteo.demo.service.IdeaService;
 import com.starteo.demo.service.UserService;
+import java.io.IOException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @AllArgsConstructor
 public class FileController {
-  private FileMapper fileMapper;
   private IdeaMapper ideaMapper;
   private IdeaService ideaService;
   private UserService userService;
   private UserMapper userMapper;
 
-  @PostMapping("/users/{user_id}/picture/raw")
+  @PostMapping(
+      value = "/users/{user_id}/picture",
+      consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
   public User uploadUserImage(
-      @RequestBody byte[] image, @PathVariable(name = "user_id") String userId) {
-    String base64 = fileMapper.encoodeToBase64(image);
-    return userMapper.toDto(userService.uploadUserImage(userId, base64));
+      @PathVariable("user_id") String userId, @RequestParam("file") MultipartFile file)
+      throws IOException {
+    return userMapper.toDto(userService.uploadUserImage(userId, file));
   }
 
-  @PostMapping("/ideas/{idea_id}/picture/raw")
+  @PostMapping(
+      value = "/ideas/{idea_id}/picture",
+      consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
   public Idea uploadIdeaImage(
-      @RequestBody byte[] image, @PathVariable(name = "idea_id") String ideaId) {
-    String base64 = fileMapper.encoodeToBase64(image);
-    return ideaMapper.toRest(ideaService.uploadIdeaImage(ideaId, base64));
+      @PathVariable(name = "idea_id") String ideaId, @RequestParam("file") MultipartFile file)
+      throws IOException {
+    return ideaMapper.toRest(ideaService.uploadIdeaImage(ideaId, file));
   }
 }

@@ -1,23 +1,26 @@
 package com.starteo.demo.service;
 
-import com.starteo.demo.endpoint.rest.mapper.UserMapper;
 import com.starteo.demo.repository.UserRepository;
 import com.starteo.demo.repository.model.User;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Service
 @Slf4j
 public class UserService {
   private final UserRepository repository;
-  private final UserMapper userMapper;
+  private final S3Service s3Service;
 
-  public User uploadUserImage(String userId, String image) {
+  public User uploadUserImage(String userId, MultipartFile file) throws IOException {
     User selected = getUserById(userId);
+    String keyName = "user/" + selected.getEmail() + file.getOriginalFilename();
+    String image = s3Service.uploadFile(keyName, file);
     selected.setImage(image);
     return repository.save(selected);
   }

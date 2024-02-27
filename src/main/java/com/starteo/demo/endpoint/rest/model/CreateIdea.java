@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-// TODO : enum
 public class CreateIdea {
   private String id;
   private String name;
