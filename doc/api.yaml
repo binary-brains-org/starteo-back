@@ -86,44 +86,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/users/{user_id}/picture/raw':
-    post:
-      tags:
-        - User
-      summary: Create or update a picture to an user
-      description: Post photos for user's profile
-      operationId: PostImagesUsers
-      parameters:
-        - name: user_id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        description: Photo to send
-        required: true
-        content:
-          image/jpeg:
-            schema:
-              type: string
-              format: binary
-      responses:
-        '200':
-          description: Individual User
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
   '/auth/login':
     post:
       tags:
@@ -517,6 +479,86 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /ideas/{idea_id}/picture:
+    post:
+      tags:
+        - Ideas
+      summary: Upload picture for an idea
+      description: Uploads a picture for the specified idea.
+      parameters:
+        - in: path
+          name: idea_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the idea to upload the picture for.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Return the new idea with image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /users/{user_id}/picture:
+    post:
+      tags:
+        - User
+      summary: Upload picture for a user
+      description: Uploads a picture for the specified user.
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to upload the picture for.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Return the new idea with image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerAuth:
@@ -585,8 +627,7 @@ components:
         password:
           type: string
     User:
-      allOf:
-        - $ref: '#/components/schemas/CreateUser'
+      type: object
       properties:
         id:
           type: string
@@ -594,6 +635,16 @@ components:
           enum:
             - USER
             - ADMIN
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        image:
+          type: string
     GivenToken:
       properties:
         email:
