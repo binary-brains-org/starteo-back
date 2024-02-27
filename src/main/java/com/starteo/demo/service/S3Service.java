@@ -23,7 +23,8 @@ public class S3Service {
   }
 
   public String uploadFile(String keyName, MultipartFile file) throws IOException {
-    PutObjectRequest putObjectRequest =  new PutObjectRequest(bucketName, keyName, file.getInputStream(), null)
+    PutObjectRequest putObjectRequest =
+        new PutObjectRequest(bucketName, keyName, file.getInputStream(), null)
             .withCannedAcl(CannedAccessControlList.PublicRead);
     s3client.putObject(putObjectRequest);
     return keyName;
