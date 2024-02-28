@@ -341,23 +341,18 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/funds/{idea_id}':
+  '/funds':
     put:
       tags:
-        - Idea
-      summary: CreateFund an idea
+        - Funds
+      summary: Update or create funds for ideas
       operationId: crupdateFunds
-      parameters:
-        - name: idea_id
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
-        description: CreateFund an idea
+        description: List of funds of ideas
         content:
           application/json:
             schema:
+              type: array
               items:
                 $ref: '#/components/schemas/CreateFunds'
       responses:
@@ -376,9 +371,10 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  '/ideas/{idea_id}/funds':
     get:
       tags:
-        - Idea
+        - Funds
       summary: Get all funds of an idea
       operationId: getfundsByIdeaId
       parameters:
@@ -393,7 +389,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Funds'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Funds'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -694,6 +692,8 @@ components:
     CreateFunds:
       type: object
       properties:
+        ideaId:
+          type: string
         userId:
           type: string
         value:
