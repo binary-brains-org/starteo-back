@@ -30,6 +30,32 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  '/user':
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: get all users
+      operationId: GetUsers
+      responses:
+        '200':
+          description: All users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/User'
+        '400':
+            $ref: '#/components/responses/400'
+        '403':
+            $ref: '#/components/responses/403'
+        '404':
+            $ref: '#/components/responses/404'
+        '429':
+            $ref: '#/components/responses/429'
+        '500':
+            $ref: '#/components/responses/500'
   '/user/{user_id}':
     get:
       tags:
@@ -43,44 +69,6 @@ paths:
           in: path
           schema:
             type: string
-      responses:
-        '200':
-          description: Individual User
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserInfo'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  '/users/{user_id}/picture/raw':
-    post:
-      tags:
-        - User
-      summary: Create or update a picture to an user
-      description: Post photos for user's profile
-      operationId: PostImagesUsers
-      parameters:
-        - name: user_id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        description: Photo to send
-        required: true
-        content:
-          image/jpeg:
-            schema:
-              type: string
-              format: binary
       responses:
         '200':
           description: Individual User
@@ -110,7 +98,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Signin'
+              $ref: '#/components/schemas/SignIn'
       responses:
         '200':
           description: token
@@ -140,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfo'
+                $ref: '#/components/schemas/User'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -163,14 +151,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Signup'
+              $ref: '#/components/schemas/CreateUser'
       responses:
         '200':
-          description: User created.
+          description: token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfo'
+                $ref: '#/components/schemas/GivenToken'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -181,7 +169,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-
   '/ideas':
     put:
       tags:
@@ -354,23 +341,18 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/funds/{idea_id}':
+  '/funds':
     put:
       tags:
-        - Idea
-      summary: CreateFund an idea
+        - Funds
+      summary: Update or create funds for ideas
       operationId: crupdateFunds
-      parameters:
-        - name: idea_id
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
-        description: CreateFund an idea
+        description: List of funds of ideas
         content:
           application/json:
             schema:
+              type: array
               items:
                 $ref: '#/components/schemas/CreateFunds'
       responses:
@@ -389,9 +371,10 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  '/ideas/{idea_id}/funds':
     get:
       tags:
-        - Idea
+        - Funds
       summary: Get all funds of an idea
       operationId: getfundsByIdeaId
       parameters:
@@ -406,7 +389,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Funds'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Funds'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -492,15 +477,92 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-
-
+  /ideas/{idea_id}/picture:
+    post:
+      tags:
+        - Ideas
+      summary: Upload picture for an idea
+      description: Uploads a picture for the specified idea.
+      parameters:
+        - in: path
+          name: idea_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the idea to upload the picture for.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Return the new idea with image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /users/{user_id}/picture:
+    post:
+      tags:
+        - User
+      summary: Upload picture for a user
+      description: Uploads a picture for the specified user.
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to upload the picture for.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Return the new idea with image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
   responses:
-    ## response model
     '400':
       description: Bad request
       content:
@@ -531,7 +593,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/InternalServerException'
-
   schemas:
     ## enum type
     Page:
@@ -545,9 +606,11 @@ components:
       enum:
         - OPEN
         - CLOSED
-    UserInfo:
+    CreateUser:
+      allOf:
+        - $ref : '#/components/schemas/SignIn'
       properties:
-        id:
+        username:
           type: string
         firstname:
           type: string
@@ -555,11 +618,30 @@ components:
           type: string
         email:
           type: string
-    Signin:
+    SignIn:
       properties:
         email:
           type: string
         password:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          enum:
+            - USER
+            - ADMIN
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        image:
           type: string
     GivenToken:
       properties:
@@ -603,34 +685,20 @@ components:
         idea:
           $ref: '#/components/schemas/Ideas'
         user:
-          $ref: '#/components/schemas/UserInfo'
+          $ref: '#/components/schemas/User'
         value:
           type: integer
           example: 10000
     CreateFunds:
       type: object
       properties:
+        ideaId:
+          type: string
         userId:
           type: string
         value:
           type: integer
           example: 10000
-    User:
-      allOf:
-        - $ref: '#/components/schemas/UserInfo'
-      properties:
-        password:
-          type: string
-        username:
-          type: string
-    Signup:
-      allOf:
-        - $ref: '#/components/schemas/UserInfo'
-      properties:
-        username:
-          type: string
-        password:
-          type: string
     CreateComments:
       type: object
       properties:
@@ -650,7 +718,7 @@ components:
         content:
           type: string
         user:
-          $ref: '#/components/schemas/UserInfo'
+          $ref: '#/components/schemas/User'
     Exception:
       type: object
       properties:

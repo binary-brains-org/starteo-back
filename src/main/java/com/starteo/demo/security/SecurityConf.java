@@ -36,11 +36,7 @@ public class SecurityConf {
         .csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(
-            auth ->
-                auth
-                    .anyRequest()
-                    .permitAll())
+        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
         .authenticationManager(authenticationManager)
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();

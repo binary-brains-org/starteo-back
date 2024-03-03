@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class CreateComment {
-    private String id;
-    private String userId;
-    private String content;
+  private String id;
+  private String userId;
+  private String content;
 }

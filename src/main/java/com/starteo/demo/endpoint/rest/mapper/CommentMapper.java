@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class CommentMapper {
 
-    public Comment toRest(com.starteo.demo.repository.model.Comment comment){
-        return Comment.builder()
-                .id(comment.getId())
-                .content(comment.getContent())
-                .idea_id(comment.getIdea().getId())
-                .user_id(comment.getUser().getId())
-                .build();
-    }
+  public Comment toRest(com.starteo.demo.repository.model.Comment comment) {
+    return Comment.builder()
+        .id(comment.getId())
+        .content(comment.getContent())
+        .idea_id(comment.getIdea().getId())
+        .user_id(comment.getUser().getId())
+        .build();
+  }
 }

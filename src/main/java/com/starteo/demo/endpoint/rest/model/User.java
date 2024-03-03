@@ -1,5 +1,6 @@
 package com.starteo.demo.endpoint.rest.model;
 
+import com.starteo.demo.repository.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

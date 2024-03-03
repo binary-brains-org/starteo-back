@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Comment {
-    private String id;
-    private String content;
-    private String user_id;
-    private String idea_id;
+  private String id;
+  private String content;
+  private String user_id;
+  private String idea_id;
 }

@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-//TODO : enum
 public class CreateIdea {
-    private String id;
-    private String name;
-    private IdeaStatus status;
-    private String description;
-    private String founder;
-    private String image;
+  private String id;
+  private String name;
+  private IdeaStatus status;
+  private String description;
+  private String founder;
+  private String image;
 }
