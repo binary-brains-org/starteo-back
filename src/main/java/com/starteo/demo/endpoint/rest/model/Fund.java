@@ -8,6 +8,6 @@ import lombok.Getter;
 public class Fund {
   private String id;
   private Idea idea;
-  private UserInfo user;
+  private User user;
   private int value;
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CreateFund {
+  private String ideaId;
   private String userId;
   private int value;
 }
