@@ -1,0 +1,43 @@
+package com.starteo.api.endpoint.controller;
+
+import com.starteo.api.endpoint.rest.mapper.FundMapper;
+import com.starteo.api.endpoint.rest.model.CreateFund;
+import com.starteo.api.endpoint.rest.model.Fund;
+import com.starteo.api.repository.model.User;
+import com.starteo.api.service.AuthService;
+import com.starteo.api.service.FundService;
+import com.starteo.api.service.IdeaService;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@AllArgsConstructor
+@CrossOrigin("*")
+public class FundController {
+  private FundService fundService;
+  private FundMapper fundMapper;
+  private IdeaService ideaService;
+  private AuthService authService;
+
+  @PutMapping("/funds")
+  public List<Fund> saveFunds(HttpServletRequest request, @RequestBody List<CreateFund> toCreate) {
+    User userConnected = authService.whoami(request);
+    List<com.starteo.api.repository.model.Fund> created =
+        fundService.saveFunds(toCreate, userConnected);
+    return created.stream().map(fundMapper::toRest).toList();
+  }
+
+  @GetMapping("/ideas/{idea_id}/funds")
+  public List<Fund> getAllFundSOnIdea(@PathVariable("idea_id") String ideaString) {
+    return fundService.getFundsByIdea(ideaService.getById(ideaString)).stream()
+        .map(fundMapper::toRest)
+        .toList();
+  }
+}

@@ -1,0 +1,726 @@
+openapi: 3.0.3
+info:
+  version: 'latest'
+  title: Start-eo
+  description: |
+    A simple API for a crowfunding app
+security:
+  - BearerAuth: []
+paths:
+  '/ping':
+    get:
+      tags:
+        - Health
+      summary: Health check of the server
+      description: Check if the server is up or not
+      operationId: ping
+      responses:
+        '200':
+          description: pong
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  '/user':
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: get all users
+      operationId: GetUsers
+      responses:
+        '200':
+          description: All users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/user/{user_id}':
+    get:
+      tags:
+        - User
+      summary: Get user by id
+      description: get individual user
+      operationId: GetUserById
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Individual User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/auth/login':
+    post:
+      tags:
+        - Security
+      summary: authenticate user
+      operationId: signIn
+      requestBody:
+        description: User to authenticate.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignIn'
+      responses:
+        '200':
+          description: token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GivenToken'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/auth/whoami':
+    get:
+      tags:
+        - Security
+      summary: Check the current logged user
+      operationId: whoAmI
+      responses:
+        '200':
+          description: User created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/auth/signup':
+    post:
+      tags:
+        - Security
+      summary: register user
+      operationId: signUp
+      requestBody:
+        description: User to register.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GivenToken'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/ideas':
+    put:
+      tags:
+        - Ideas
+      summary: Create or update ideas
+      operationId: crupdateIdeas
+      requestBody:
+        description: List of ideas to be crUpdated
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/CreateIdea'
+      responses:
+        '200':
+          description: return a list crupdated ideas.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      tags:
+        - Ideas
+      summary: Get all ideas by creation datetime.
+      operationId: getIdeas
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/PageSize'
+        - name: idea_name
+          in: query
+          required: false
+          description: Filter idea by name.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of filtered ideas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/lastIdeas':
+    get:
+      tags:
+        - Ideas
+      summary: Get all ideas by creation datetime.
+      operationId: getIdeasOfTheWeek
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/PageSize'
+      responses:
+        '200':
+          description: List of filtered ideas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/ideas/{idea_id}':
+    get:
+      tags:
+        - Ideas
+      summary: Get idea by identifier
+      operationId: getIdeaById
+      parameters:
+        - name: idea_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of filtered ideas.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/ideas/{idea_id}/picture/raw':
+    post:
+      tags:
+        - Ideas
+      summary: Post images to an idea
+      operationId: postImageToIdea
+      parameters:
+        - name: idea_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Individual idea
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ideas'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/ideas/{idea_id}/funds':
+    put:
+      tags:
+        - Funds
+      summary: Update or create funds for ideas
+      parameters:
+        - name: idea_id
+          required: true
+          in: path
+          schema:
+            type: string
+      operationId: crupdateFunds
+      requestBody:
+        description: List of funds of ideas
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateFunds'
+      responses:
+        '200':
+          description: return a list funds.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Funds'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      tags:
+        - Funds
+      summary: Get all funds of an idea
+      operationId: getfundsByIdeaId
+      parameters:
+        - name: idea_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of filtered funds.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Funds'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/ideas/{idea_id}/comments':
+    get:
+      tags:
+        - Ideas
+      summary: Get all commentaries of an idea.
+      operationId: getCommentaries
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/PageSize'
+      responses:
+        '200':
+          description: List of filtered commentaries.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comments'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Ideas
+      summary: Comment an idea
+      operationId: crupdateComments
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Comment an idea
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/CreateComments'
+      responses:
+        '200':
+          description: return a list comments.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Comments'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /users/{user_id}/picture/raw:
+    post:
+      tags:
+        - User
+      summary: Upload picture for a user
+      description: Uploads a picture for the specified user.
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to upload the picture for.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Return the new idea with image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestException'
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotAuthorizedException'
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceNotFoundException'
+    '429':
+      description: Too many requests to the API
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsException'
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerException'
+  schemas:
+    ## enum type
+    Page:
+      type: integer
+      description: Start at 1
+    PageSize:
+      type: integer
+      description: Cannot exceed 500
+    IdeaStatus:
+      type: string
+      enum:
+        - OPEN
+        - CLOSED
+    CreateUser:
+      allOf:
+        - $ref : '#/components/schemas/SignIn'
+      properties:
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+    SignIn:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          enum:
+            - USER
+            - ADMIN
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        image:
+          type: string
+    GivenToken:
+      properties:
+        email:
+          type: string
+        token:
+          type: string
+    CreateIdea:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/IdeaStatus'
+        description:
+          type: string
+        founder:
+          type: string
+          example: "person@gmail.com"
+        image:
+          type: string
+    Ideas:
+      allOf:
+        - $ref: '#/components/schemas/CreateIdea'
+      properties:
+        creationDatetime:
+          type: string
+          format: date-time
+        updatedDatetime:
+          type: string
+          format: date-time
+        currentFunds:
+          type: integer
+    Funds:
+      type: object
+      properties:
+        id:
+          type: string
+        idea:
+          $ref: '#/components/schemas/Ideas'
+        user:
+          $ref: '#/components/schemas/User'
+        value:
+          type: integer
+          example: 10000
+    CreateFunds:
+      type: object
+      properties:
+        ideaId:
+          type: string
+        userId:
+          type: string
+        value:
+          type: integer
+          example: 10000
+    CreateComments:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        content:
+          type: string
+    Comments:
+      type: object
+      properties:
+        id:
+          type: string
+        idea:
+          $ref: '#/components/schemas/Ideas'
+        content:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+    Exception:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    BadRequestException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: BadRequestException
+        message: Bad request
+    NotAuthorizedException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: NotAuthorizedException
+        message: Not authorized
+    ResourceNotFoundException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: ResourceNotFoundException
+        message: Resource of type <T> identified by <I> not found
+    TooManyRequestsException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: TooManyRequestsException
+        message: Too many requests
+    InternalServerException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: InternalServerException
+        message: Unexpected error
+  
